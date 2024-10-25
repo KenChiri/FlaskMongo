@@ -1,0 +1,109 @@
+/* src/css/Signup.css */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+    background-color: white;
+  }
+  
+  .container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .left-container,
+  .right-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transition: all 0.8s ease-in-out; /* Smooth transition */
+  }
+  
+  .left-container {
+    background-color: #f0f0f0;
+    width: 50%;
+    left: 0;
+    z-index: 1; /* Keep it on top */
+  }
+  
+  .right-container {
+    background-image: url('assets/pexels-chevanon-1108099.jpg');
+    background-position: 50% 30%;
+    background-size: cover;
+    width: 50%;
+    right: 0;
+    z-index: 0;
+  }
+  
+  /* When in login state, swap the positions */
+  .container.login-active .left-container {
+    transform: translateX(100%); /* Move left container to the right */
+  }
+  
+  .container.login-active .right-container {
+    transform: translateX(-100%); /* Move right container to the left */
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    max-width: 400px;
+  }
+  
+  input, button {
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+  }
+  
+  button {
+    background-color: #32CD32;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #28a745;
+  }
+  
+  h2 {
+    color: #32CD32;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
+  .success-message {
+    color: green;
+  }
+  
+  /* Button in the smaller container */
+  .transition-button {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+    font-size: 20px;
+    padding: 15px 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .transition-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+  
