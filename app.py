@@ -88,7 +88,7 @@ def reset_password():
 
     # Send password reset email
     msg = Message('Reset Your Password', sender=app.config['MAIL_USERNAME'], recipients=[email])
-    msg.body = f'Click the link to reset your password: http://localhost:3000/reset/{token}'
+    msg.body = f'Click the link to reset your password: http://localhost:5173/reset/{token}'
     mail.send(msg)
 
     return jsonify({'message': 'Password reset link sent to your email!'}), 200
@@ -113,6 +113,40 @@ def reset_password_token(token):
     mongo.db.users.update_one({'reset_token': token}, {'$set': {'password': hashed_password, 'reset_token': None}})
 
     return jsonify({'message': 'Password reset successfully!'}), 200
+
+
+@app.route('/api/add_contact', methods=['POST'])
+def add_contact():
+    data = request.get_json()
+    contact = {
+        "phone": data.get("phone"),
+        "email": data.get("email"),
+        "address": data.get("address"),
+        "regNumber": data.get("regNumber")
+    }
+
+    # Check if the registration number already exists
+    if mongo.db.contacts.find_one({"regNumber": contact["regNumber"]}):
+        return jsonify({"error": "Contact with this registration number already exists!"}), 400
+
+    # Insert the contact into MongoDB
+    mongo.db.contacts.insert_one(contact)
+    return jsonify({"message": "Contact saved successfully!"}), 201
+
+
+@app.route('/api/search_contact', methods=['GET'])
+def search_contact():
+    reg_number = request.args.get("regNumber")
+
+    # Search the contact by registration number
+    contact = mongo.db.contacts.find_one({"regNumber": reg_number}, {"_id": 0})  # Exclude the MongoDB `_id` field
+
+    if not contact:
+        return jsonify({"error": "Contact not found!"}), 404
+
+    return jsonify(contact), 200
+
+
 
 
 # Run the app

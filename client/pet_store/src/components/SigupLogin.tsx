@@ -1,5 +1,4 @@
-// src/components/Signup.tsx
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../css/Signup.css';
@@ -13,10 +12,8 @@ const SignupLogin: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Check the current path to determine whether we're in login or signup mode
     const isLogin = location.pathname === '/login';
 
-    // This function toggles between /signup and /login
     const toggleLoginSignup = () => {
         if (isLogin) {
             navigate('/signup');
@@ -45,8 +42,6 @@ const SignupLogin: React.FC = () => {
             const response = await axios.post('http://localhost:5000/login', { email, password });
             setMessage(response.data.message);
             setError(null);
-
-            // Redirect to the home page and pass the username via state
             navigate('/home', { state: { username: response.data.username } });
         } catch (err: any) {
             if (err.response) {
@@ -58,7 +53,7 @@ const SignupLogin: React.FC = () => {
 
     return (
         <div className={`container ${isLogin ? 'login-active' : ''}`}>
-            {/* Left Container for Signup/Login Form */}
+            {/* Left Container */}
             <div className="left-container">
                 <div className="form-container">
                     {!isLogin ? (
@@ -109,6 +104,9 @@ const SignupLogin: React.FC = () => {
                                 />
                                 <button type="submit">Login</button>
                             </form>
+                            <div className="forgot-password">
+                                <a href="/reset_password">Forgot Password?</a>
+                            </div>
                         </>
                     )}
                     {error && <div className="error-message">{error}</div>}
@@ -116,8 +114,9 @@ const SignupLogin: React.FC = () => {
                 </div>
             </div>
 
-            {/* Right Container for Background and Transition Button */}
+            {/* Right Container */}
             <div className="right-container">
+                <h1>{isLogin ? "Welcome Back" : "Welcome to Pet Store.Com"}</h1>
                 <button className="transition-button" onClick={toggleLoginSignup}>
                     {isLogin ? 'Go to Signup' : 'Go to Login'}
                 </button>
